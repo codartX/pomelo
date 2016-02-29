@@ -30,12 +30,9 @@ Route::group(['middleware' => ['web']], function () {
     //
 });
 
-/*
-$api = $app['Dingo\Api\Routing\Router'];
-*/
 $api = app('Dingo\Api\Routing\Router');
 
-$api->version('v1', ['namespace' => 'App\Http\Controllers\Api'], function ($api) {
+$api->version('v1', ['namespace' => 'App\Http\Controllers\Api', 'middleware' => 'api.auth', 'scopes' => ['test']], function ($api) {
     $api->get('test','TestController@index');
 });
 
