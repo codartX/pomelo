@@ -10,7 +10,7 @@ class TestController extends Controller
 {
     public function __construct()
     {
-        $this->scopes('test');
+        //$this->scopes('test');
     }
 
     public function index()

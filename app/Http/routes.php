@@ -4,16 +4,7 @@
 |--------------------------------------------------------------------------
 | Routes File
 |--------------------------------------------------------------------------
-|
-| Here is where you will register all of the routes in an application.
-| It's a breeze. Simply tell Laravel the URIs it should respond to
-| and give it the controller to call when that URI is requested.
-|
 */
-
-Route::get('/', function () {
-    return view('welcome');
-});
 
 /*
 |--------------------------------------------------------------------------
@@ -30,9 +21,25 @@ Route::group(['middleware' => ['web']], function () {
     //
 });
 
-$api = app('Dingo\Api\Routing\Router');
-
-$api->version('v1', ['namespace' => 'App\Http\Controllers\Api', 'middleware' => 'api.auth', 'scopes' => ['test']], function ($api) {
-    $api->get('test','TestController@index');
+Route::post('oauth/access_token', function() {
+    return Response::json(Authorizer::issueAccessToken());
 });
 
+$api = app('Dingo\Api\Routing\Router');
+
+$api->version('v1', ['namespace' => 'App\Http\Controllers\Api'], function ($api) {
+    $api->group(['middleware' => 'oauth'],function($api){
+        $api->get('test','TestController@index');
+    });
+});
+
+
+Route::group(['middleware' => 'web'], function () {
+    Route::auth();
+
+    Route::get('/', function () {
+        return view('welcome');
+    });
+
+    Route::get('/home', 'HomeController@index');
+});
