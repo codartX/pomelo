@@ -28,8 +28,11 @@ Route::post('oauth/access_token', function() {
 $api = app('Dingo\Api\Routing\Router');
 
 $api->version('v1', ['namespace' => 'App\Http\Controllers\Api'], function ($api) {
-    $api->group(['middleware' => 'oauth'],function($api){
+    $api->group(['middleware' => 'oauth:test'],function($api){
         $api->get('test','TestController@index');
+    });
+    $api->group(['middleware' => 'oauth:test1'],function($api){
+        $api->get('test1','TestController@index');
     });
 });
 
