@@ -28,23 +28,15 @@ return [
     */
 
     'grant_types' => [
-        'password' => [
-            'class'            => 'League\OAuth2\Server\Grant\PasswordGrant',
-            'access_token_ttl' => 604800,
-
-            // the code to run in order to verify the user's identity
-            'callback'         => '\App\PasswordGrantVerifier@verify'
+        'client_credentials' => [
+            'class' => '\League\OAuth2\Server\Grant\ClientCredentialsGrant',
+            'access_token_ttl' => 3600
         ],
         'refresh_token' => [
-            'class'                 => 'League\OAuth2\Server\Grant\RefreshTokenGrant',
-            'access_token_ttl'      => 3600,
-
-            // the refresh token time to live
-            'refresh_token_ttl'     => 604800,
-
-            // whether or not to issue a new refresh token when a new access token is issued
-            'rotate_refresh_tokens' => false,
-        ],
+            'class' => '\League\OAuth2\Server\Grant\RefreshTokenGrant',
+            'access_token_ttl' => 3600,
+            'refresh_token_ttl' => 36000
+        ]
     ],
 
     /*
